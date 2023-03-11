@@ -9,7 +9,8 @@ module.exports = {
     mode: 'development',
     devtool: "cheap-module-source-map",
     // entry: "./src/index.js",
-    entry: './src/test.js', // 修改文件入口
+    entry: "./src/react.js",
+    // entry: './src/test.js', // 修改文件入口
     output: {
         path: path.resolve(__dirname, 'output'),
         // filename: '[name].[hash:6].js'
@@ -52,10 +53,22 @@ module.exports = {
                 //     modules: true
                 // }
             }] // 现在不希望用style标签
+        }, {
+            test: /\.mobile$/,
+            use: [
+                'style-loader',
+                'css-loader',
+                {
+                    loader: './mobile-css-loader', // 自定义loader
+                    options: {
+                        width: 750,
+                    }
+                }
+            ]
         }]
     },
     plugins: [
-        new AutoTryCatch(),
+        // new AutoTryCatch(),
         // new TemplatedPathPlugin(),
         new HtmlWebpackPlugin({
             template: './index.html' // 打包的产物会自动引入到这里

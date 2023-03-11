@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
-import './style.css'
+// import './style.css'
+import './style.mobile'
 
 // 高阶组件
 // const lazy = fn => class extends React.Component {
