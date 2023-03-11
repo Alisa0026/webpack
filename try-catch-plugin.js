@@ -3,13 +3,15 @@ const path = require('path')
 const parse = require('@babel/parser').parse;//安装babel带了就不用单独再装了
 const traverse = require('@babel/traverse').default;
 const generator = require('@babel/generator').default;
+const template = require('@babel/template').default;
 const t = require('@babel/types');
-const { template } = require('@babel/core');
 
 const pluginName = 'AutoTryCatch'
+
 class AutoTryCatch {
     constructor(options) {
-        this.options = options || { dir: ['src'], pattern: ['.js'] } // 默认转义src下的js
+        // 默认转义src下的js
+        this.options = options || { dir: ['src'], pattern: ['.js'] } 
         this.pattern = this.options.pattern;
     }
 
@@ -26,7 +28,8 @@ class AutoTryCatch {
                         // 如果文件是目录需要递归处理，这里简单处理认为没有目录
                         files.forEach(filename => {
                             const absPath = path.resolve(item, filename)
-                            const extname = path.extname(filename) // 取后缀
+                             // 取后缀
+                            const extname = path.extname(filename)
                             if (this.pattern.includes(extname)) {
                                 // 处理文件内容，读取抽象语法树
                                 const ast = this.getAst(absPath)
@@ -54,6 +57,7 @@ class AutoTryCatch {
             return null
         }
     }
+
     // 遍历
     handleTraverse(ast, filePath) {
         // 判断函数是异步还是同步函数，对异步函数做处理，做标记
@@ -83,7 +87,8 @@ class AutoTryCatch {
         const _this = this;
         traverse(ast, {
             BlockStatement(path) { // 找到块语句
-                if ([].includes(path.parentPath.type) && path.node.body[0].type !== 'TryStatement' && path.parentPath.node.async) {
+                if (
+                    ['FunctionDeclaration', 'FunctionExpression', 'ArrowFunctionExpression'].includes(path.parentPath.type) && path.node.body[0].type !== 'TryStatement' && path.parentPath.node.async) {
                     // 生成try语句
                     const tryStatement = _this.generateTryStatement(path.node)
                     const blockStatement = t.blockStatement([tryStatement])

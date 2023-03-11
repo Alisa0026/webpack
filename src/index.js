@@ -1,18 +1,16 @@
-import CountChange from "./es6"
-const instance = new CountChange()
-
+import CountChange from "./es6";
+const instance = new CountChange();
 function test(content) {
-    document.querySelector("#app").innerHTML = content
+  document.querySelector("#app").innerHTML = content;
 }
 // test('some' + instance.count)
 
 setInterval(() => {
-    instance.increment()
-    test(instance.count)
+  instance.increment();
+  test(instance.count);
 }, 1000);
 
 // plugin 和 loader 区别？
-
 
 // 提升打包速度？
 // 1.DllPlugin 动态链接库，提前把一些依赖打好包，真正使用就不用再打包了。(为了预打包)
