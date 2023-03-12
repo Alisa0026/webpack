@@ -48,3 +48,8 @@ npm run build
 源代码修改=> 增量编译（compiler） => HMR（基于新内容生成[hash].update.js(on)）=> 向浏览器推送消息（包括新的hash） => 浏览器创建script标签下载[hash].update.js => 调用页面更新的方法（module.hot.accept）
 
 
+## CI/CD
+- 测试：
+  - jest
+- travls-ci
+- github action
